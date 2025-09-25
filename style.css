@@ -145,8 +145,6 @@ main {
 #subscription-form {
   min-width: 320px;
   max-width: 400px;
-  max-height: 100%;
-  display: flex;
   flex-direction: column;
   gap: 1rem;
 }
