@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <header>
+    <h1>Subscription Tracker</h1>
+    <nav>
+      <button id="add-subscription-btn">Add Subscription</button>
+      <button id="manage-payments-btn">Payment Accounts</button>
+      <button id="manage-categories-btn">Categories</button>
+      <button id="export-btn">Export Data</button>
+    </nav>
+  </header>
+  <main>
+    <section id="dashboard" class="glass-card">
+      <h2>Subscriptions</h2>
+      <div id="subscriptions-list"></div>
+    </section>
+    <section id="analytics" class="glass-card">
+      <h2>Analytics</h2>
+      <div id="analytics-content"></div>
+      <div class="charts">
+        <canvas id="category-chart" width="400" height="200"></canvas>
+        <canvas id="monthly-chart" width="400" height="200"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add/Edit Subscription Modal -->
+  <div id="subscription-modal" class="modal hidden">
+    <form id="subscription-form" class="glass-card">
+      <h3 id="modal-title">Add Subscription</h3>
+      <label>Name: <input type="text" name="name" required></label>
+      <label>Cost: <input type="number" name="cost" step="0.01" required></label>
+      <label>Billing Cycle:
+        <select name="billing_cycle" required>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly</option>
+          <option value="semi_annual">Semi-Annual</option>
+          <option value="annual">Annual</option>
+        </select>
+      </label>
+      <label>Billing Day: <input type="number" name="billing_day" min="1" max="31" required></label>
+      <label>Payment Account:
+        <select name="payment_account_id" required>
+          <option value="">Select payment account</option>
+        </select>
+      </label>
+      <label>Category:
+        <select name="category_id" required>
+          <option value="">Select category</option>
+        </select>
+      </label>
+      <label>Icon:
+        <select name="icon" id="subscription-icon">
+          <option value="">Use category icon</option>
+          <option value="fa-solid fa-music">Music</option>
+          <option value="fa-solid fa-video">Video</option>
+          <option value="fa-solid fa-cloud">Cloud</option>
+          <option value="fa-solid fa-tv">TV</option>
+          <option value="fa-solid fa-shopping-cart">Shopping</option>
+          <option value="fa-solid fa-credit-card">Card</option>
+        </select>
+      </label>
+      <label>Status:
+        <select name="status" required>
+          <option value="active">Active</option>
+          <option value="paused">Paused</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="expired">Expired</option>
+        </select>
+      </label>
+      <label>Start Date: <input type="date" name="start_date" required></label>
+      <label>Trial End Date: <input type="date" name="trial_end_date"></label>
+      <label>Is Trial: <input type="checkbox" name="is_trial"></label>
+      <div class="form-actions">
+        <button type="submit">Save</button>
+        <button type="button" id="close-modal-btn">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Payment Account Modal -->
+  <div id="payment-modal" class="modal hidden">
+    <form id="payment-form" class="glass-card">
+      <h3>Payment Account</h3>
+      <label>Name: <input type="text" name="name" required></label>
+      <label>Type: <input type="text" name="type"></label>
+      <label>Details (last4/etc): <input type="text" name="details"></label>
+      <div class="form-actions">
+        <button type="submit">Save</button>
+        <button type="button" id="close-payment-modal-btn">Cancel</button>
+      </div>
+      <div id="payment-accounts-list"></div>
+    </form>
+  </div>
+
+  <!-- Category Modal -->
+  <div id="category-modal" class="modal hidden scrollable-modal">
+    <form id="category-form" class="glass-card scrollable-form">
+      <h3>Category</h3>
+      <label>Name: <input type="text" name="name" required></label>
+      <label>Icon:
+        <select name="icon">
+          <option value="fa-solid fa-music">Music</option>
+          <option value="fa-solid fa-video">Video</option>
+          <option value="fa-solid fa-cloud">Cloud</option>
+          <option value="fa-solid fa-tv">TV</option>
+          <option value="fa-solid fa-shopping-cart">Shopping</option>
+          <option value="fa-solid fa-credit-card">Card</option>
+        </select>
+      </label>
+      <label>Color:
+        <input type="color" name="color" value="#4ECDC4">
+      </label>
+      <div class="form-actions">
+        <button type="submit">Save</button>
+        <button type="button" id="close-category-modal-btn">Cancel</button>
+      </div>
+      <div id="categories-list"></div>
+    </form>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
